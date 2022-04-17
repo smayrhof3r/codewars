@@ -7,3 +7,21 @@ Given an array of words, return an array of the number of letters that occupy
  their positions in the alphabet for each word. For example,
 
 solve(["abode","ABc","xyzD"]) = [4, 3, 1]*/
+
+let alphabet = Array.from(Array(26).keys())
+                    .map((num) => { return String.fromCharCode(num + 97); })
+
+function solve (arr) {
+  return arr.map((item) => {
+    total = 0;
+
+    for (let i = 0; i < item.length; i++) {
+      if (item.toLowerCase()[i] == alphabet[i]) { total += 1; }
+    }
+
+    return total;
+  });
+};
+
+
+console.log(solve(["abs", "sbce", "fff", ""]));
