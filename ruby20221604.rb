@@ -1,7 +1,8 @@
 =begin
 https://www.codewars.com/kata/51e056fe544cf36c410000fb/train/ruby
 
-Write a function that, given a string of text (possibly with punctuation and line-breaks), returns an array of the top-3 most occurring words, in descending order of the number of occurrences.
+Write a function that, given a string of text (possibly with punctuation and line-breaks), returns an array of the top-3
+ most occurring words, in descending order of the number of occurrences.
 
 Assumptions:
 A word is a string of letters (A to Z) optionally containing one or more apostrophes (') in ASCII.
@@ -10,29 +11,35 @@ Any other characters (e.g. #, \, / , . ...) are not part of a word and should be
 Matches should be case-insensitive, and the words in the result should be lowercased.
 Ties may be broken arbitrarily.
 
-If a text contains fewer than three unique words, then either the top-2 or top-1 words should be returned, or an empty array if a text contains no words.
+If a text contains fewer than three unique words, then either the top-2 or top-1 words should be returned, or an empty
+ array if a text contains no words.
 =end
 
 def top_3_words(text)
   freq = Hash.new(0)
 
-  text.split(" ").each {|word|
-    word = word.delete(word.delete "[a-zA-Z' ]").downcase
-    freq[word] += 1 }
+  text.split(" ").each do |word|
+    word = word.downcase.delete(word.delete "[a-zA-Z']*[a-zA-Z]+[a-zA-Z']*")
+    freq[word] += 1 if word.length > 0
+  end
 
-  puts "#{freq.sort_by {|k, v| v}.map {|x| x[0]}.slice([-3, -freq.count].max..-1).reverse}"
+  freq.sort_by { |_k, v| v }.map { |x| x[0] }.slice([-3, -freq.count].max..-1).reverse
 end
 
-top_3_words("In a village of La Mancha, the name of which I have no desire to call to
+### Testing
+
+puts "#{top_3_words("In a village of La Mancha, the name of which I have no desire to call to
   mind, there lived not long since one of those gentlemen that keep a lance
   in the lance-rack, an old buckler, a lean hack, and a greyhound for
   coursing. An olla of rather more beef than mutton, a salad on most
   nights, scraps on Saturdays, lentils on Fridays, and a pigeon or so extra
-  on Sundays, made away with three-quarters of his income.")
-  # => ["a", "of", "on"]
+  on Sundays, made away with three-quarters of his income.")}"
+# => ["a", "of", "on"]
 
-top_3_words("e e e e DDD ddd DdD: ddd ddd aa aA Aa, bb cc cC e e e")
-  # => ["e", "ddd", "aa"]
+puts "#{top_3_words('e e e e DDD ddd DdD: ddd ddd aa aA Aa, bb cc cC e e e')}"
+# => ["e", "ddd", "aa"]
 
-top_3_words("  //wont won't won't")
-  # => ["won't", "wont"]
+puts "#{top_3_words("  //wont won't won't")}"
+# => ["won't", "wont"]
+
+puts "#{top_3_words(" ' ''' won't won't 'a a'")}"
