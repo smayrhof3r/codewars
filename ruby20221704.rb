@@ -23,13 +23,7 @@ use a tree, starting with largest option (n-1)^2 and solve for remaining tree be
 =end
 
 def sum_of_squares(n)
-
-#returns arr of squares that add up to n OR [] if none
-  #print "enter with #{n}..."
-  val = (n*n)
-
-  return nil if sum_squ_1to(n-1) < (val)
-  result = rec_sum_of_sq(val, n-1)
+  result = rec_sum_of_sq(n*n, n-1)
   return result.empty? ? nil : result
 end
 
@@ -37,43 +31,32 @@ def sum_squ_1to(n)
   (n * (n + 1) * ((2*n) + 1)) / 6
 end
 
-def rec_sum_of_sq(val, max_n)
-  n = Math.sqrt(val).floor #start with nearest rounded down integer
-  print "n (#{n}) vs max_n (#{max_n})"
-  n = max_n if n > max_n #for first recurse
-  puts "...final n (#{n})"
-  t = sum_squ_1to(n)
-  puts "rec_enter with val #{val}...evaluate with n = #{n} (max_n: #{max_n})"
-  #puts "check if possible: #{t} : #{t >= val}"
+def rec_sum_of_sq(remainder, n_minus_1)
+  #next n must be lesser of remaining value vs. n-1
+  n = [Math.sqrt(remainder).floor, n_minus_1].min
 
-  #puts "case 1: []]" if sum_squ_1to(n) < val
-  #puts "case (n..1).to_a" if sum_squ_1to(n) === val
-  #puts "case [n]" if n*n === val
-  return [] if sum_squ_1to(n) < val
-  return (1..n).to_a if sum_squ_1to(n) === val
-  return [n] if n*n === val
-  #puts "case recurse"
-  x = n
-  result = []
+  #we can stop if remainder can't be met (or is exactly met) by full series
+  sum_1_to_n = sum_squ_1to(n)
+
+  return [] if sum_1_to_n < remainder
+  return (1..n).to_a if sum_1_to_n === remainder
+
+  #else we loop through tree until we find a path that works
+  x = n; result = []
   loop do
-    r = val - (x*x)
-    puts "#{x} : remainder : #{r}"
-    result = rec_sum_of_sq(r, x-1)
-    puts "#{x} : result(#{r}, #{x-1}) : #{result}"
-    break if (result.length > 0 || x === 1) || sum_squ_1to(x-1) < val
-    #puts "no break...#{x}"
+    result = rec_sum_of_sq(remainder - (x*x), x-1)
+
+    #break if end of path, no solution possible, or solution found
+    break if (result.length > 0 || x === 1) || sum_squ_1to(x-1) < remainder
+
     x -= 1
   end
-  #puts "pre result : #{result}"
+
   result = result + [x]
-  #puts "post result : #{result}"
-  check_val = result.map {|x| x*x}.reduce(&:+)
-  #puts "result val : #{check_val}"
-  retVal = check_val == val ? result : []
-  #puts "#{n}.................returns: #{retVal}"
-  return retVal
+
+  result.map {|x| x*x}.reduce(&:+) == remainder ? result : []
 end
 
-puts "#{sum_of_squares(9927447)}"
+puts "#{sum_of_squares(50)}"
 
 #25 16 9 4 1
