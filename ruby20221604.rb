@@ -19,14 +19,15 @@ def top_3_words(text)
   freq = Hash.new(0)
 
   text.split(" ").each do |word|
-    word = word.downcase.delete(word.delete "[a-zA-Z']*[a-zA-Z]+[a-zA-Z']*")
-    freq[word] += 1 if word.length > 0
+    word = word.downcase.delete(word.delete "[a-zA-Z']")
+    freq[word] += 1 if word.delete("'").length > 0
   end
 
-  freq.sort_by { |_k, v| v }.map { |x| x[0] }.slice([-3, -freq.count].max..-1).reverse
+  freq.count > 0 ? freq.sort_by { |_k, v| v }.map { |x| x[0] }.slice([-3, -freq.count].max..-1).reverse : []
 end
 
 ### Testing
+
 
 puts "#{top_3_words("In a village of La Mancha, the name of which I have no desire to call to
   mind, there lived not long since one of those gentlemen that keep a lance
@@ -42,4 +43,5 @@ puts "#{top_3_words('e e e e DDD ddd DdD: ddd ddd aa aA Aa, bb cc cC e e e')}"
 puts "#{top_3_words("  //wont won't won't")}"
 # => ["won't", "wont"]
 
-puts "#{top_3_words(" ' ''' won't won't 'a a'")}"
+puts "#{top_3_words("  ...   ")}"
+puts "#{top_3_words("  '   ")}"
