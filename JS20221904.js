@@ -20,14 +20,27 @@ coffees = [3,2,5,10,9]  ->  85
 coffees = [20,5]        ->  32
 coffees = [4,3,2]       ->  22*/
 
-const waiting_time = (arr) => {
-  let total_wait = arr.length > 0 ? -clean : 0; /*start with -2 to account for addtion of 2 in the loop for first element*/
-  arr.reverse().forEach((coffee) => { total_wait += (total_wait + clean + coffee) });
+const waiting_time = (coffees) => {
+
+  let total_wait = 0;
+
+  /*as earlier coffees need to waited on by the most people, sort short to long*/
+  coffees.sort((a,b) => {return a-b;});
+
+  /*first coffee, everyone needs to wait for so muliply by (coffees.length).
+  second coffee, everyone except first person needs to wait for (incl. clean time),
+  multiply by (clean + coffee) * (coffees.length - 1), and so on...*/
+
+  coffees.forEach((coffee, index) => {
+    total_wait += (coffees.length - index) * (coffee + (index == 0 ? 0 : clean));
+  });
 
   return total_wait;
 }
 
 const clean = 2;
+typeof 2;
+
 
 console.log(waiting_time([2,3,4]));
-console.log(waiting_time([]));
+console.log(waiting_time([2,10,5,3,9]));
