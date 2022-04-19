@@ -14,14 +14,11 @@ let alphabet = Array.from(Array(26).keys())
 function solve (arr) {
   return arr.map((item) => {
     total = 0;
-
     for (let i = 0; i < item.length; i++) {
       if (item.toLowerCase()[i] == alphabet[i]) { total += 1; }
     }
-
     return total;
   });
 };
-
 
 console.log(solve(["abs", "sbce", "fff", ""]));
