@@ -39,9 +39,5 @@ const waiting_time = (coffees) => {
   return total_wait;
 }
 
-
-
-
-
 console.log(waiting_time([2,3,4]));
 console.log(waiting_time([2,10,5,3,9]));
