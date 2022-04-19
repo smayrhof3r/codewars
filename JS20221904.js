@@ -20,6 +20,7 @@ coffees = [3,2,5,10,9]  ->  85
 coffees = [20,5]        ->  32
 coffees = [4,3,2]       ->  22*/
 
+const clean = 2;
 const waiting_time = (coffees) => {
 
   let total_wait = 0;
@@ -38,8 +39,8 @@ const waiting_time = (coffees) => {
   return total_wait;
 }
 
-const clean = 2;
-typeof 2;
+
+
 
 
 console.log(waiting_time([2,3,4]));
