@@ -17,3 +17,27 @@
 // movingShift(u, 1) returns :
 // v = ["J vltasl rlhr ", "zdfog odxr ypw", " atasl rlhr p ", "gwkzzyq zntyhv", " lvz wp!!!"]
 // (quotes added in order to see the strings and the spaces, your program won't write these quotes, see Example Test Cases)
+
+function movingShift(s, shift) {
+  encoded = String.fromCharCode(...Array.from(s).map((ch, index) => shiftedChar(ch.charCodeAt(0), shift + index)));
+  console.log(encoded);
+  ["","","","",""].map
+  return "";
+}
+
+function demovingShift(arr, shift) {
+  return "";
+}
+
+function shiftedChar(ch, shift) {
+
+  if (String.fromCharCode(ch).match(/[a-zA-Z]/i)) {
+  ch = (ch < 97) ? (ch + shift - 65) % 26 + 65: (ch + shift - 97) % 26 + 97
+  }
+
+  return ch;
+}
+var u = "I should have known that you would have a perfect answer for me!!!"
+var v = ["J vltasl rlhr ", "zdfog odxr ypw", " atasl rlhr p ", "gwkzzyq zntyhv", " lvz wp!!!"]
+movingShift(u, 1)
+demovingShift(v, 1)
