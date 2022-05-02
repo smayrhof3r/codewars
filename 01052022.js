@@ -20,19 +20,18 @@
 
 function movingShift(s, shift) {
   encoded = String.fromCharCode(...Array.from(s).map((ch, index) => shiftedChar(ch.charCodeAt(0), shift + index)));
-  console.log(Math.ceil(encoded.length / 5));
   sliceSize = Math.ceil(encoded.length / 5)
-  console.log(["","","","",""].map((block, index) => encoded.slice(index*sliceSize, (index+1)*sliceSize)));
-  return "";
+  return ["","","","",""].map((block, index) => encoded.slice(index*sliceSize, (index+1)*sliceSize));
 }
 
 function demovingShift(arr, shift) {
-  return "";
+  return String.fromCharCode(...Array.from(arr.join("")).map((ch, index) => shiftedChar(ch.charCodeAt(0), -shift - index)));
 }
 
 function shiftedChar(ch, shift) {
 
   if (String.fromCharCode(ch).match(/[a-zA-Z]/i)) {
+    if (shift < 0) { shift += Math.ceil(-shift / 26)*26; }
     ch = (ch < 97) ? (ch + shift - 65) % 26 + 65: (ch + shift - 97) % 26 + 97
   }
 
